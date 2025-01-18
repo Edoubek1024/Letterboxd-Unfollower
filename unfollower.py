@@ -2,7 +2,6 @@ import pwinput
 from bs4 import BeautifulSoup
 from colorama import Fore, Style
 from enum import Enum, auto
-import getpass
 import re
 import requests
 
