@@ -2,6 +2,7 @@ import pwinput
 from bs4 import BeautifulSoup
 from colorama import Fore, Style
 from enum import Enum, auto
+import getpass
 import re
 import requests
 
@@ -74,6 +75,7 @@ def getUsers(session, url):
 	following = []
 	follower_counts = [] # Keeps track of follower counts
 	following_counts = [] # Keeps track of following counts
+	like_counts = [] # Keeps track of TOTAL like counts
 
 	return_list = [] # The list which will contain all of the accounts to be unfollowed
 
@@ -98,6 +100,13 @@ def getUsers(session, url):
 				follower_counts.append(re.sub(r'[^0-9]', '', text)) # Cuts down the text from the element to only the numbers
 				text = curr_page_follow_stats[count + 1].get_text()
 				following_counts.append(re.sub(r'[^0-9]', '', text))
+
+		if Filters.LIKES.value != "": # Needed to minimize extra requests later
+			curr_page_like_stats = soup.find_all("a", class_="has-icon icon-16 icon-liked")
+			for element in curr_page_like_stats:
+				text = element.get_text(strip=True)
+				like_counts.append(re.sub(r'[^0-9]', '', text))
+
 
 		i += 1
 
@@ -133,6 +142,8 @@ def getUsers(session, url):
 				continue
 
 		if Filters.LIKES.value != "": # Check if review likes matter
+			if not apply_filter(Filters.LIKES.value, int(like_counts[account])):
+				continue
 			likes_html = session.get(f"https://letterboxd.com/{acc.name}/likes/films/") # We must open a new page to check an account's liked reviews
 			soup = BeautifulSoup(likes_html.text, 'html.parser')
 			likes = soup.find('a', string=" Reviews ")
