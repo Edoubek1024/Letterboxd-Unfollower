@@ -16,7 +16,7 @@ The program finds attributes of accounts that the user follows through both the 
 
 ## The Unfollower
 
-The unfollower is made up of the `unfollow` function, which has almost entirely been written by `@ShiloBuchnik` and most comments within the file are from them. The `unfollow` function takes in a list of account usernames that have been extracted from accounts found by the searcher. It then uses the Selenium library to interact with Chrome without a GUI or loading anything unnecessary, and unfollows the accounts discovered by the searcher.
+The unfollower is made up of the `unfollow` function, which has almost entirely been written by `@ShiloBuchnik` and most comments within the function are from them. The `unfollow` function takes in a list of account usernames that have been extracted from accounts found by the searcher. It then uses the Selenium library to interact with Chrome without a GUI or loading anything unnecessary, and unfollows the accounts discovered by the searcher.
 
 ### Verification
 
